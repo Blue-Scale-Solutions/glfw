@@ -1233,6 +1233,7 @@ GLFWbool _glfwConnectX11(int platformID, _GLFWplatform* platform)
         .getWindowOpacity = _glfwGetWindowOpacityX11,
         .setWindowResizable = _glfwSetWindowResizableX11,
         .setWindowDecorated = _glfwSetWindowDecoratedX11,
+        .setWindowModernLook = _glfwSetWindowModernLookX11,
         .setWindowFloating = _glfwSetWindowFloatingX11,
         .setWindowOpacity = _glfwSetWindowOpacityX11,
         .setWindowMousePassthrough = _glfwSetWindowMousePassthroughX11,

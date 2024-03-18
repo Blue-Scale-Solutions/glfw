@@ -1293,6 +1293,16 @@ void _glfwSetWindowMonitorCocoa(_GLFWwindow* window,
             styleMask |= (NSWindowStyleMaskTitled | NSWindowStyleMaskClosable);
         }
 
+        if (window->modernLook)
+        {
+            styleMask |= NSWindowStyleMaskFullSizeContentView;
+            [window->ns.object setTitlebarAppearsTransparent: TRUE];
+            [window->ns.object setToolbarStyle: NSWindowToolbarStyleUnifiedCompact];
+            [window->ns.object setTitleVisibility: NSWindowTitleHidden];
+            [window->ns.object setTitlebarSeparatorStyle: NSTitlebarSeparatorStyleNone];
+            [window->ns.object setToolbar: [NSToolbar new]];
+        }
+
         if (window->resizable)
             styleMask |= NSWindowStyleMaskResizable;
         else
@@ -1469,6 +1479,36 @@ void _glfwSetWindowDecoratedCocoa(_GLFWwindow* window, GLFWbool enabled)
     [window->ns.object makeFirstResponder:window->ns.view];
 
     } // autoreleasepool
+}
+
+void _glfwSetWindowModernLookCocoa(_GLFWwindow* window, GLFWbool enabled)
+{
+    @autoreleasepool {
+
+      NSUInteger styleMask = [window->ns.object styleMask];
+      if (enabled)
+      {
+          styleMask |= NSWindowStyleMaskFullSizeContentView;
+          [window->ns.object setStyleMask:styleMask];
+          [window->ns.object setTitlebarAppearsTransparent: TRUE];
+          [window->ns.object setToolbarStyle: NSWindowToolbarStyleUnifiedCompact];
+          [window->ns.object setTitleVisibility: NSWindowTitleHidden];
+          [window->ns.object setTitlebarSeparatorStyle: NSTitlebarSeparatorStyleNone];
+          [window->ns.object setToolbar: [NSToolbar new]];
+      }
+      else
+      {
+          styleMask &= ~NSWindowStyleMaskFullSizeContentView;
+          [window->ns.object setStyleMask:styleMask];
+          [window->ns.object setTitlebarAppearsTransparent: FALSE];
+          [window->ns.object setToolbarStyle: NSWindowToolbarStyleExpanded];
+          [window->ns.object setTitleVisibility: NSWindowTitleVisible];
+          [window->ns.object setTitlebarSeparatorStyle: NSTitlebarSeparatorStyleAutomatic];
+      }
+
+      [window->ns.object makeFirstResponder:window->ns.view];
+
+  } // autoreleasepool
 }
 
 void _glfwSetWindowFloatingCocoa(_GLFWwindow* window, GLFWbool enabled)

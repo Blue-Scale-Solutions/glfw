@@ -941,6 +941,8 @@ extern "C" {
  */
 #define GLFW_POSITION_Y             0x0002000F
 
+#define GLFW_MODERN_LOOK            0x00020010
+
 /*! @brief Framebuffer bit depth hint.
  *
  *  Framebuffer bit depth [hint](@ref GLFW_RED_BITS).

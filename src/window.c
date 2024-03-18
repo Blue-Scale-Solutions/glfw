@@ -228,6 +228,7 @@ GLFWAPI GLFWwindow* glfwCreateWindow(int width, int height,
     window->monitor          = (_GLFWmonitor*) monitor;
     window->resizable        = wndconfig.resizable;
     window->decorated        = wndconfig.decorated;
+    window->modernLook       = wndconfig.modernLook;
     window->autoIconify      = wndconfig.autoIconify;
     window->floating         = wndconfig.floating;
     window->focusOnShow      = wndconfig.focusOnShow;
@@ -269,6 +270,7 @@ void glfwDefaultWindowHints(void)
     _glfw.hints.window.resizable    = GLFW_TRUE;
     _glfw.hints.window.visible      = GLFW_TRUE;
     _glfw.hints.window.decorated    = GLFW_TRUE;
+    _glfw.hints.window.modernLook   = GLFW_FALSE;
     _glfw.hints.window.focused      = GLFW_TRUE;
     _glfw.hints.window.autoIconify  = GLFW_TRUE;
     _glfw.hints.window.centerCursor = GLFW_TRUE;
@@ -351,6 +353,9 @@ GLFWAPI void glfwWindowHint(int hint, int value)
             return;
         case GLFW_DECORATED:
             _glfw.hints.window.decorated = value ? GLFW_TRUE : GLFW_FALSE;
+            return;
+      case GLFW_MODERN_LOOK:
+            _glfw.hints.window.modernLook = value ? GLFW_TRUE : GLFW_FALSE;
             return;
         case GLFW_FOCUSED:
             _glfw.hints.window.focused = value ? GLFW_TRUE : GLFW_FALSE;
@@ -951,6 +956,12 @@ GLFWAPI void glfwSetWindowAttrib(GLFWwindow* handle, int attrib, int value)
             if (!window->monitor)
                 _glfw.platform.setWindowDecorated(window, value);
             return;
+
+      case GLFW_MODERN_LOOK:
+        window->modernLook = value;
+        if (!window->monitor)
+          _glfw.platform.setWindowModernLook(window, value);
+        return;
 
         case GLFW_FLOATING:
             window->floating = value;

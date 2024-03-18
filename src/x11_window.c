@@ -630,6 +630,9 @@ static GLFWbool createNativeWindow(_GLFWwindow* window,
     if (!wndconfig->decorated)
         _glfwSetWindowDecoratedX11(window, GLFW_FALSE);
 
+    if (!wndconfig->modernLook)
+        _glfwSetWindowModernLookX11(window, GLFW_FALSE);
+
     if (_glfw.x11.NET_WM_STATE && !window->monitor)
     {
         Atom states[3];
@@ -2495,6 +2498,7 @@ void _glfwSetWindowMonitorX11(_GLFWwindow* window,
     if (window->monitor)
     {
         _glfwSetWindowDecoratedX11(window, window->decorated);
+        _glfwSetWindowModernLookX11(window, window->modernLook);
         _glfwSetWindowFloatingX11(window, window->floating);
         releaseMonitor(window);
     }
@@ -2641,6 +2645,11 @@ void _glfwSetWindowDecoratedX11(_GLFWwindow* window, GLFWbool enabled)
                     PropModeReplace,
                     (unsigned char*) &hints,
                     sizeof(hints) / sizeof(long));
+}
+
+void _glfwSetWindowDecoratedX11(_GLFWwindow* window, GLFWbool enabled)
+{
+  // TODO
 }
 
 void _glfwSetWindowFloatingX11(_GLFWwindow* window, GLFWbool enabled)
